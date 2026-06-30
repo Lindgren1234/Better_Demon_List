@@ -13,7 +13,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
 
       - name: Update JSON File
         uses: actions/github-script@v7
@@ -23,15 +23,17 @@ jobs:
             const path = require('path');
             
             const payload = context.payload.client_payload;
-            // Gör om banans namn till gemener och ersätter mellanslag med understreck (t.ex. "Blood Bath" blir "blood_bath")
+            
+            // Tar namnet från kalkylarket, gör om till små bokstäver och ersätter mellanslag med understreck
             const levelName = payload.level.toLowerCase().trim().replace(/ /g, "_");
             
-            // PATH_TO_LEVELS: Ändra 'data' om dina JSON-filer ligger i en annan mapp (t.ex. 'levels')
+            // Letar i mappen 'data' efter filen (t.ex. data/bloodbath.json)
             const filePath = path.join('data', `${levelName}.json`); 
             
+            console.log(`Försöker öppna filen: ${filePath}`);
+            
             if (!fs.existsSync(filePath)) {
-              core.setFailed(`Hittade inte filen för banan: ${filePath}. Kontrollera att banans namn stavades exakt rätt i kalkylarket.`);
-              return;
+              throw new Error(`Krasch: Hittade inte filen "${filePath}". Kontrollera att banans namn i kalkylarket matchar filnamnet på GitHub exakt!`);
             }
             
             let levelData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
