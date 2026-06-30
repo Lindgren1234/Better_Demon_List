@@ -24,16 +24,16 @@ jobs:
             
             const payload = context.payload.client_payload;
             
-            // Tar namnet från kalkylarket, gör om till små bokstäver och ersätter mellanslag med understreck
+            // Tar namnet från kalkylarket och gör om till små bokstäver
             const levelName = payload.level.toLowerCase().trim().replace(/ /g, "_");
             
-            // Letar i mappen 'data' efter filen (t.ex. data/bloodbath.json)
+            // Letar i mappen 'data' efter filen
             const filePath = path.join('data', `${levelName}.json`); 
             
-            console.log(`Försöker öppna filen: ${filePath}`);
+            console.log(`FÖRSÖKER ÖPPNA FILEN: ${filePath}`);
             
             if (!fs.existsSync(filePath)) {
-              throw new Error(`Krasch: Hittade inte filen "${filePath}". Kontrollera att banans namn i kalkylarket matchar filnamnet på GitHub exakt!`);
+              throw new Error(`Hittade inte filen "${filePath}". Kontrollera stavningen i Google Sheets!`);
             }
             
             let levelData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
@@ -42,7 +42,6 @@ jobs:
               levelData.records = [];
             }
             
-            // Lägger till spelaren i listans records
             levelData.records.push({
               user: payload.player,
               percent: payload.percent,
