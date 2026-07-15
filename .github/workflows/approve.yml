@@ -22,33 +22,51 @@ jobs:
             const fs = require('fs');
             const path = require('path');
             
-            const payload = context.payload.client_payload;
-            
-            // Tar namnet från kalkylarket och gör om till små bokstäver
-            const levelName = payload.level.toLowerCase().trim().replace(/ /g, "_");
-            
-            // Letar i mappen 'data' efter filen
-            const filePath = path.join('data', `${levelName}.json`); 
-            
-            console.log(`FÖRSÖKER ÖPPNA FILEN: ${filePath}`);
-            
-            if (!fs.existsSync(filePath)) {
-              throw new Error(`Hittade inte filen "${filePath}". Kontrollera stavningen i Google Sheets!`);
-            }
-            
-            let levelData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-            
-            if (!levelData.records) {
-              levelData.records = [];
-            }
-            
-            levelData.records.push({
-              user: payload.player,
-              percent: payload.percent,
-              link: payload.video
-            });
-            
-            fs.writeFileSync(filePath, JSON.stringify(levelData, null, 2), 'utf8');
+const payload = context.payload.client_payload;
+
+// Rensar banans namn, gör om till små bokstäver och ersätter mellanslag med understreck
+let levelName = payload.level.toLowerCase().trim().replace(/ /g, "_");
+// Om namnet av misstag slutar på .json (t.ex. från Google Sheets), ta bort det
+if (levelName.endsWith('.json')) {
+  levelName = levelName.slice(0, -5);
+}
+
+// Letar i mappen 'data' efter filen
+const filePath = path.join('data', `${levelName}.json`); 
+
+console.log(`FÖRSÖKER ÖPPNA FILEN: ${filePath}`);
+
+if (!fs.existsSync(filePath)) {
+  throw new Error(`Hittade inte filen "${filePath}". Kontrollera stavningen i Google Sheets!`);
+}
+
+let levelData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+
+if (!levelData.records) {
+  levelData.records = [];
+}
+
+// Skapar det nya rekordet med dina nya fält
+const newRecord = {
+  user: payload.player,
+  percent: payload.percent,
+  link: payload.video
+};
+
+// Lägg bara till datum om det skickades med från Google Sheets
+if (payload.date) {
+  newRecord.date = payload.date.toString().trim();
+}
+
+// Lägg bara till spelläge om det skickades med (t.ex. "two_player" eller "solo")
+if (payload.mode) {
+  newRecord.mode = payload.mode.toString().trim().toLowerCase();
+}
+
+// Spara det nya rekordet i listan
+levelData.records.push(newRecord);
+
+fs.writeFileSync(filePath, JSON.stringify(levelData, null, 2), 'utf8');
 
       - name: Commit and Push changes
         run: |
