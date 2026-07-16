@@ -46,19 +46,24 @@ if (!levelData.records) {
   levelData.records = [];
 }
 
-// Skapar det nya rekordet med dina nya fält
+// Skapar det nya rekordet med alla dina fält
 const newRecord = {
   user: payload.player,
   percent: payload.percent,
   link: payload.video
 };
 
+// Lägg till Hz om det skickades med
+if (payload.hz) {
+  newRecord.hz = payload.hz.toString().trim();
+}
+
 // Lägg bara till datum om det skickades med från Google Sheets
 if (payload.date) {
   newRecord.date = payload.date.toString().trim();
 }
 
-// Lägg bara till spelläge om det skickades med (t.ex. "two_player" eller "solo")
+// Lägg bara till spelläge om det skickades med
 if (payload.mode) {
   newRecord.mode = payload.mode.toString().trim().toLowerCase();
 }
