@@ -27,3 +27,4 @@ export function score(rank, percent, minPercent) {
     // FIXAT: Avrundar poängen NEDÅT (Floor) för 100% completion
     return Math.max(Math.floor(score), 0);
 }
+export function round(num) { return Math.floor(num); }
