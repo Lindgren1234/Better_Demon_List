@@ -1,9 +1,4 @@
 /**
- * Numbers of decimal digits to round to
- */
-const scale = 3;
-
-/**
  * Calculate the score awarded when having a certain percentage on a list level
  * @param {Number} rank Position on the list
  * @param {Number} percent Percentage of completion
@@ -18,54 +13,17 @@ export function score(rank, percent, minPercent) {
         return 0;
     }
 
-    // Old formula
-    /*
-    let score = (100 / Math.sqrt((rank - 1) / 50 + 0.444444) - 50) *
-        ((percent - (minPercent - 1)) / (100 - (minPercent - 1)));
-    */
-    // New formula
-    let score = (-95.6214*Math.pow(rank-1, 0.2761) + 350) *
+    // Beräkna baspoäng utifrån placering och progression
+    let score = (-95.6214 * Math.pow(rank - 1, 0.2761) + 350) *
         ((percent - (minPercent - 1)) / (100 - (minPercent - 1)));
 
     score = Math.max(0, score);
 
+    // FIXAT: Ger avdrag och avrundar poängen NEDÅT (Floor) om spelaren inte har 100%
     if (percent != 100) {
-        return round(score - score / 3);
+        return Math.floor(score - score / 3);
     }
 
-    return Math.max(round(score), 0);
+    // FIXAT: Avrundar poängen NEDÅT (Floor) för 100% completion
+    return Math.max(Math.floor(score), 0);
 }
-
-export function round(num) {
-    if (!('' + num).includes('e')) {
-        return +(Math.round(num + 'e+' + scale) + 'e-' + scale);
-    } else {
-        var arr = ('' + num).split('e');
-        var sig = '';
-        if (+arr[1] + scale > 0) {
-            sig = '+';
-        }
-        return +(
-            Math.round(+arr[0] + 'e' + sig + (+arr[1] + scale)) +
-            'e-' +
-            scale
-        );
-    }
-}
-
-/*
-export function score(rank, percent, minPercent) {
-  if (percent < minPercent) return 0;
-
-  let maxPoints = 350 * Math.pow(0.97, rank - 1)
-
-  if (percent === 100) {
-    return Math.round(maxPoints);
-  } else {
-    let percentRation = (percent - minPercent) / (100 - minPercent;
-    let pointsAtMin = maxPoints * 0.20;
-    let finalPoints = ponintsAtMin + (maxPoints - pointsAtMin) * percentRatio;
-    return Math.round(finalPoints);
-  }
-}
-*/
