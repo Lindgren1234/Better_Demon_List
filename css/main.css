@@ -60,7 +60,7 @@ header {
     }
 }
 header .logo {
-    justify-self: end;
+    justify-self: start;
     align-self: center;
     display: flex;
     align-items: flex-end;
