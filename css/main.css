@@ -49,34 +49,54 @@ main {
 header {
     display: flex;
     padding-inline: calc(25vw - 10rem);
-    height: 4rem;
+    height: 4.5rem; /* Ökat höjden lite så att v1.0.0 får plats på höjden */
     background-color: var(--color-primary);
     color: var(--color-on-primary);
 }
+
 @media screen and (min-width: 1366px) {
-/* Gör om hela menyraden så att allt flyter från vänster till höger i stället för att låsas i rutor */
-header {
-    display: flex !important;
-    justify-content: space-between;
-    align-items: center;
-    padding-inline: 2rem !important; /* Ger lite snyggt tomrum vid ytterkanterna */
+    header {
+        display: flex !important; /* Tvingar flex-layout */
+        justify-content: space-between !important; /* Separerar vänster och höger sida */
+        align-items: center !important;
+        padding-inline: 4rem !important; 
+    }
 }
 
-/* Lägger loggan till vänster och hindrar den från att radbrytas */
 header .logo {
     justify-self: start !important;
-    display: flex;
-    align-items: flex-end;
+    align-self: center !important;
+    display: flex !important;
+    align-items: center !important; /* Centrerar texten och v1.0.0 snyggt i höjdled */
     gap: 1rem;
-    white-space: nowrap;
+    white-space: nowrap !important;
 }
 
-/* FIXAT: Tvingar hela knappraden att hålla sig på en enda rak linje så att Submit Record inte delas upp */
+/* FIXAT: Tvingar loggans text och versionstext att stå kvar */
+header .logo h2, header .logo p {
+    display: inline-block !important;
+    white-space: nowrap !important;
+}
+
 header .nav {
-    display: flex;
-    align-items: center;
-    column-gap: 2rem;
-    white-space: nowrap; /* Hindrar "Submit Record" från att bli två rader! */
+    display: flex !important;
+    align-items: center !important;
+    column-gap: 2rem !important;
+    white-space: nowrap !important;
+}
+
+/* FIXAT: Öppnar upp utrymmet runt Discord- och Submit-knappen så att inget radbryts */
+header .nav__actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 1.5rem !important; /* Ger snyggt mellanrum mellan ikonerna */
+    white-space: nowrap !important;
+}
+
+/* FIXAT: Tvingar själva Submit-knappen att ALDRIG dela på sig till två rader */
+header .nav__cta {
+    white-space: nowrap !important;
+    display: inline-block !important;
 }
 
 main {
