@@ -60,11 +60,13 @@ header {
     }
 }
 header .logo {
-    justify-self: end;
+    justify-self: start; /* Flyttar namnet till vänster */
     align-self: center;
     display: flex;
     align-items: flex-end;
     gap: 1rem;
+    white-space: nowrap; /* FIXAT: Hindrar texten från att pressas ihop till tre rader! */
+    padding-left: 20px;  /* Skjuter ut texten lite från den absoluta vänsterkanten så det ser snyggt ut */
 }
 header .nav {
     flex: 1;
