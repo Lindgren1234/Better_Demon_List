@@ -106,7 +106,7 @@ export default {
                         Do not use secret routes or bug routes
                     </p>
                     <p>
-                        Do not use easy modes, only a record of the unmodified level qualifies (LDM can work if it is the same difficulty)
+                        Do not use easy modes, only a record of the unmodified level qualifies (LDM can work if it is the same gameplay, be careful!)
                     </p>
                 </div>
             </div>
