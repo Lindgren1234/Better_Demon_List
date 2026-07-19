@@ -54,22 +54,29 @@ header {
     color: var(--color-on-primary);
 }
 @media screen and (min-width: 1366px) {
-    header {
-        display: grid;
-        padding-inline: 0;
-    }
+/* Gör om hela menyraden så att allt flyter från vänster till höger i stället för att låsas i rutor */
+header {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    padding-inline: 2rem !important; /* Ger lite snyggt tomrum vid ytterkanterna */
 }
+
+/* Lägger loggan till vänster och hindrar den från att radbrytas */
 header .logo {
-    justify-self: start; /* Flyttar namnet till vänster */
-    align-self: center;
+    justify-self: start !important;
     display: flex;
     align-items: flex-end;
     gap: 1rem;
-    white-space: nowrap; /* FIXAT: Hindrar texten från att pressas ihop till tre rader! */
-    padding-right: 50px;  /* Skjuter ut texten lite från den absoluta vänsterkanten så det ser snyggt ut */
+    white-space: nowrap;
 }
+
+/* FIXAT: Tvingar hela knappraden att hålla sig på en enda rak linje så att Submit Record inte delas upp */
 header .nav {
-    flex: 1;
+    display: flex;
+    align-items: center;
+    column-gap: 2rem;
+    white-space: nowrap; /* Hindrar "Submit Record" från att bli två rader! */
 }
 
 main {
