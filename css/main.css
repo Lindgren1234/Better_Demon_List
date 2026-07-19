@@ -60,11 +60,12 @@ header {
     }
 }
 header .logo {
-    justify-self: center;
+    justify-self: end;
     align-self: center;
     display: flex;
-    align-items: flex-center;
+    align-items: flex-end;
     gap: 1rem;
+    margin-tight: 50px;
 }
 header .nav {
     flex: 1;
