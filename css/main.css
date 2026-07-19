@@ -63,7 +63,7 @@ header .logo {
     justify-self: center;
     align-self: center;
     display: flex;
-    align-items: flex-end;
+    align-items: flex-center;
     gap: 1rem;
 }
 header .nav {
