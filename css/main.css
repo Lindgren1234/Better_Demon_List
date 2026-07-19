@@ -65,7 +65,7 @@ header .logo {
     display: flex;
     align-items: flex-end;
     gap: 1rem;
-    margin-tight: 50px;
+    margin-tight: 100px;
 }
 header .nav {
     flex: 1;
