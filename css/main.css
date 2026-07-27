@@ -128,7 +128,7 @@ input[type="checkbox"] {
     display: flex;
     flex-direction: column;
     align-items: flex-end;     /* Skjuter rutan till höger sida */
-    width: 100%;
+    width: 200%;
 }
 
 .gddl-badge {
