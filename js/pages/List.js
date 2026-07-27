@@ -41,12 +41,11 @@ export default {
                     <h1>{{ level.name }}</h1>
                     <LevelAuthors :author="level.author" :creators="level.creators" :verifier="level.verifier"></LevelAuthors>
                     
-                    <!-- GDDL-Rutan och video omgiven av video-wrapper -->
-                    <div class="video-wrapper">
-                        <div class="gddl-badge" v-if="level.gddl">GDDL Tier: {{ level.gddl }}</div>
-                        <iframe class="video" id="videoframe" :src="video" frameborder="0"></iframe>
-                    </div>
-
+                        <!-- GDDL-Kvadraten och video omgiven av video-wrapper -->
+                        <div class="video-wrapper">
+                            <div class="gddl-badge" v-if="level.gddl">{{ level.gddl }}</div>
+                            <iframe class="video" id="videoframe" :src="video" frameborder="0"></iframe>
+                        </div>
                     <ul class="stats">
                         <li>
                             <div class="type-title-sm">Points when completed</div>
