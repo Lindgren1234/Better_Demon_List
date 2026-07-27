@@ -136,7 +136,7 @@ input[type="checkbox"] {
     color: #000000;            /* Svart text/siffror */
     font-weight: bold;
     font-size: 1.1rem;
-    padding: 12px 12px;
+    padding: 6px 12px;
     border-radius: 8px;        /* Avrundade hörn */
     display: inline-block;
     margin-bottom: 20px;       /* Avstånd ner till videon */
