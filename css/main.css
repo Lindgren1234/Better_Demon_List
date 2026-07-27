@@ -123,22 +123,27 @@ input[type="checkbox"] {
     cursor: pointer;
     margin: 0;
 }
-/* --- GDDL RUTA ÖVER VIDEON --- */
+/* Behållare för att skjuta kvadraten till höger över videon */
 .video-wrapper {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;     /* Skjuter rutan till höger sida */
+    align-items: flex-end;     
     width: 100%;
 }
-
+/* Den kompakta GDDL-kvadraten */
 .gddl-badge {
     background-color: #ff0000; /* Röd bakgrund */
-    color: #000000;            /* Svart text/siffror */
+    color: #000000;            /* Svart text */
     font-weight: bold;
-    font-size: 1.1rem;
-    padding: 6px 12px;
+    font-size: 1.4rem;         /* Lite större siffra */
+    width: 45px;               /* Samma bredd... */
+    height: 45px;              /* ...och höjd gör den till en kvadrat */
     border-radius: 8px;        /* Avrundade hörn */
-    display: inline-block;
-    margin-bottom: 20px;       /* Avstånd ner till videon */
-    box-shadow: 0 2px 5px rgba(0,0,0,0.3); /* Ger lite djup */
+    margin-bottom: 10px;       /* Avstånd till videon */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    
+    /* Centrerar siffran perfekt inuti kvadraten */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
