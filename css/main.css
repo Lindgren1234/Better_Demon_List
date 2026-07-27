@@ -135,9 +135,9 @@ input[type="checkbox"] {
     background-color: #ff0000; /* Röd bakgrund */
     color: #000000;            /* Svart text */
     font-weight: bold;
-    font-size: 2.5rem;         /* Lite större siffra */
-    width: 80px;               /* Samma bredd... */
-    height: 80px;              /* ...och höjd gör den till en kvadrat */
+    font-size: 2.4rem;         /* Lite större siffra */
+    width: 70px;               /* Samma bredd... */
+    height: 70px;              /* ...och höjd gör den till en kvadrat */
     border-radius: 8px;        /* Avrundade hörn */
     margin-bottom: 15px;       /* Avstånd till videon */
     box-shadow: 0 2px 5px rgba(0,0,0,0.3);
