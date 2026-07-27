@@ -167,11 +167,3 @@ export default {
         score,
     },
 };
-
-// Hitta stället där nivån ritas ut och lägg till detta i HTML-mallen:
-const videoContainer = `
-    <div class="video-wrapper">
-        <div class="gddl-badge">GDDL Tier: ${level.gddl || 'N/A'}</div>
-        <iframe src="${embedUrl}" ...></iframe>
-    </div>
-`;
