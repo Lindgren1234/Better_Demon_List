@@ -1,3 +1,8 @@
+export function score(rank, percent, minpercent, gddl) {
+    // Om gddl saknas, är 0, eller inte är ett nummer – sätt det till 1 så det inte kraschar!
+    const tier = (gddl && typeof gddl === 'number' && gddl >= 1) ? gddl : 1;
+
+    // ... resten av din kod ...
 /**
  * Beräknar poäng baserat på rank, procent och GDDL-svårighetsgrad
  * @param {number} rank Position på listan
