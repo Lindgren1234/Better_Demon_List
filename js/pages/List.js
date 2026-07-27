@@ -40,11 +40,17 @@ export default {
                 <div class="level" v-if="level">
                     <h1>{{ level.name }}</h1>
                     <LevelAuthors :author="level.author" :creators="level.creators" :verifier="level.verifier"></LevelAuthors>
-                    <iframe class="video" id="videoframe" :src="video" frameborder="0"></iframe>
+                    
+                    <!-- GDDL-Rutan och video omgiven av video-wrapper -->
+                    <div class="video-wrapper">
+                        <div class="gddl-badge" v-if="level.gddl">GDDL Tier: {{ level.gddl }}</div>
+                        <iframe class="video" id="videoframe" :src="video" frameborder="0"></iframe>
+                    </div>
+
                     <ul class="stats">
                         <li>
                             <div class="type-title-sm">Points when completed</div>
-                            <p>{{ score(selected + 1, 100, level.percentToQualify) }}</p>
+                            <p>{{ score(selected + 1, 100, level.percentToQualify, level.gddl) }}</p>
                         </li>
                         <li>
                             <div class="type-title-sm">ID</div>
@@ -86,7 +92,7 @@ export default {
                         <p class="error" v-for="error of errors">{{ error }}</p>
                     </div>
                     <div class="og">
-                        <p class="type-label-md">Website layout made by <a href="https://tsl.pages.dev/" target="_blank">TheShittyList</a></p>
+                        <p class="type-label-md">Website layout made by <a href="https://pages.dev" target="_blank">TheShittyList</a></p>
                     </div>
                     <template v-if="editors">
                         <h3>List Editors</h3>
@@ -129,20 +135,13 @@ export default {
             if (!this.level.showcase) {
                 return embed(this.level.verification);
             }
-
-            return embed(
-                this.toggledShowcase
-                    ? this.level.showcase
-                    : this.level.verification
-            );
+            return embed(this.level.showcase);
         },
     },
     async mounted() {
-        // Hide loading spinner
         this.list = await fetchList();
         this.editors = await fetchEditors();
 
-        // Error handling
         if (!this.list) {
             this.errors = [
                 "Failed to load list. Retry in a few minutes or notify list staff.",
