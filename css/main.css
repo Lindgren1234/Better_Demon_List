@@ -135,7 +135,7 @@ input[type="checkbox"] {
     background-color: #ff0000; /* Röd bakgrund */
     color: #000000;            /* Svart text */
     font-weight: bold;
-    font-size: 1.4rem;         /* Lite större siffra */
+    font-size: 3rem;         /* Lite större siffra */
     width: 45px;               /* Samma bredd... */
     height: 45px;              /* ...och höjd gör den till en kvadrat */
     border-radius: 8px;        /* Avrundade hörn */
