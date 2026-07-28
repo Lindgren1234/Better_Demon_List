@@ -3,7 +3,7 @@ import { round, score } from './score.js';
 /**
  * Path to directory containing `_list.json` and all levels
  */
-const dir = '/data';
+const dir = './data';
 
 export async function fetchList() {
     const list = await fetch("_list.json").then((res) => res.json());
@@ -91,8 +91,8 @@ export async function fetchLeaderboard() {
         
         const { verified } = scoreMap[verifier];
         
-        // Räkna ut poäng säkert (faller tillbaka på 0 om score() ger NaN)
-        const vScore = score(rank + 1, 100, level.percentToQualify || 100) || 0;
+        // KORREKT ANROP: Skickar med level.gddl som fjärde parameter
+        const vScore = score(rank + 1, 100, level.percentToQualify || 100, level.gddl) || 0;
         
         verified.push({
             rank: rank + 1,
@@ -122,25 +122,27 @@ export async function fetchLeaderboard() {
             const minPercent = parseInt(level.percentToQualify, 10) || 100;
 
             if (currentPercent === 100) {
-                const cScore = score(rank + 1, 100, minPercent) || 0;
+                // KORREKT ANROP: Skickar med level.gddl här också
+                const cScore = score(rank + 1, 100, minPercent, level.gddl) || 0;
                 completed.push({
                     rank: rank + 1,
                     level: level.name || "Okänd bana",
                     score: Number.isNaN(cScore) ? 0 : cScore,
                     link: record.link || "",
-                    date: record.date || "Inget datum" // Sparar ditt nya datumfält här!
+                    date: record.date || "Inget datum"
                 });
                 return;
             }
 
-            const pScore = score(rank + 1, currentPercent, minPercent) || 0;
+            // KORREKT ANROP: Skickar med level.gddl här också
+            const pScore = score(rank + 1, currentPercent, minPercent, level.gddl) || 0;
             progressed.push({
                 rank: rank + 1,
                 level: level.name || "Okänd bana",
                 percent: currentPercent,
                 score: Number.isNaN(pScore) ? 0 : pScore,
                 link: record.link || "",
-                date: record.date || "Inget datum" // Sparar ditt nya datumfält här!
+                date: record.date || "Inget datum"
             });
         });
     });
