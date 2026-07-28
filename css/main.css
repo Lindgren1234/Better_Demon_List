@@ -123,26 +123,35 @@ input[type="checkbox"] {
     cursor: pointer;
     margin: 0;
 }
-/* Behållare för att skjuta kvadraten till höger över videon */
+/* Denna behållare måste ha relative för att rutan ska utgå från videons hörn */
 .video-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;     
+    position: relative; 
     width: 100%;
 }
+
 /* Den kompakta GDDL-kvadraten */
 .gddl-badge {
+    position: absolute;
+    
+    /* ------------------------------------------------------------- */
+    /* JUSTERA POSITIONEN HÄR:                                       */
+    /* Minska/öka 'top' för att flytta rutan uppåt eller nedåt.       */
+    /* Minska/öka 'right' för att flytta rutan till vänster/höger.   */
+    /* ------------------------------------------------------------- */
+    top: -55px;                /* Negativt värde flyttar rutan UPPÅT över videon */
+    right: 0px;                /* 0px sätter den kant i kant med videons högersida */
+    
     background-color: #ff0000; /* Röd bakgrund */
     color: #000000;            /* Svart text */
     font-weight: bold;
-    font-size: 2.2rem;         /* Lite större siffra */
-    width: 60px;               /* Samma bredd... */
-    height: 60px;              /* ...och höjd gör den till en kvadrat */
-    border-radius: 8px;        /* Avrundade hörn */
-    margin-bottom: 15px;       /* Avstånd till videon */
+    font-size: 1.4rem;         
+    width: 45px;               
+    height: 45px;              
+    border-radius: 8px;        
     box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    z-index: 10;               /* Säkerställer att rutan ligger överst */
     
-    /* Centrerar siffran perfekt inuti kvadraten */
+    /* Centrerar siffran inuti kvadraten */
     display: flex;
     align-items: center;
     justify-content: center;
