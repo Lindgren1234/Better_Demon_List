@@ -6,34 +6,37 @@ import { round, score } from './score.js';
 const dir = '/data';
 
 export async function fetchList() {
-    const listResult = await fetch(`${dir}/_list.json`);
-    try {
-        const list = await listResult.json();
-        return await Promise.all(
-            list.map(async (path, rank) => {
-                const levelResult = await fetch(`${dir}/${path}.json`);
-                try {
-                    const level = await levelResult.json();
-                    return [
-                        {
-                            ...level,
-                            path,
-                            records: level.records.sort(
-                                (a, b) => b.percent - a.percent,
-                            ),
-                        },
-                        null,
-                    ];
-                } catch {
-                    console.error(`Failed to load level #${rank + 1} ${path}.`);
-                    return [null, path];
+    const list = await fetch("_list.json").then((res) => res.json());
+
+    const levels = await Promise.all(
+        list.map(async (name) => {
+            try {
+                const res = await fetch(`./data/${name}.json`);
+                if (!res.ok) {
+                    throw new Error(res.statusText);
                 }
-            }),
-        );
-    } catch {
-        console.error(`Failed to load list.`);
-        return null;
-    }
+                const data = await res.json();
+                return [data, null];
+            } catch (err) {
+                return [null, name];
+            }
+        })
+    );
+
+    // SORTERING EFTER GDDL TIER (Från högsta till lägsta)
+    levels.sort((a, b) => {
+        // Om en fil misslyckades att ladda, placera den längst ner
+        if (!a[0]) return 1;
+        if (!b[0]) return -1;
+
+        const gddlA = typeof a[0].gddl === 'number' ? a[0].gddl : 0;
+        const gddlB = typeof b[0].gddl === 'number' ? b[0].gddl : 0;
+
+        // Ändra till (gddlA - gddlB) om du vill ha lägsta tier först (#1 = Tier 1)
+        return gddlB - gddlA; 
+    });
+
+    return levels;
 }
 
 export async function fetchEditors() {
