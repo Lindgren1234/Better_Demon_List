@@ -26,19 +26,20 @@ export async function fetchListRaw() {
 export async function fetchList() {
     const levels = await fetchListRaw();
 
-    // Sortering efter GDDL TIER (Från högsta till lägsta)
+    // KORREKT SORTERING: Packar upp nivån med [0] från paketet [levelData, error]
     levels.sort((a, b) => {
-        // Packa upp nivån från [levelData, error] strukturen
-        const levelA = a[0];
-        const levelB = b[0];
+        const levelA = a ? a[0] : null;
+        const levelB = b ? b[0] : null;
 
         // Om en fil saknas eller är trasig, flytta den till botten av listan
         if (!levelA) return 1;
         if (!levelB) return -1;
 
+        // Nu hittar den "gddl": 7 inuti acu.json utan problem!
         const gddlA = typeof levelA.gddl === 'number' ? levelA.gddl : 0;
         const gddlB = typeof levelB.gddl === 'number' ? levelB.gddl : 0;
 
+        // Sorterar från HÖGSTA till LÄGSTA GDDL-tier
         return gddlB - gddlA;
     });
 
