@@ -23,17 +23,21 @@ export async function fetchList() {
         })
     );
 
-    // SORTERING EFTER GDDL TIER (Från högsta till lägsta)
+    // KORREKT SORTERING: Packar upp nivån från [levelData, error]
     levels.sort((a, b) => {
-        // Om en fil misslyckades att ladda, placera den längst ner
-        if (!a[0]) return 1;
-        if (!b[0]) return -1;
+        const levelA = a[0];
+        const levelB = b[0];
 
-        const gddlA = typeof a[0].gddl === 'number' ? a[0].gddl : 0;
-        const gddlB = typeof b[0].gddl === 'number' ? b[0].gddl : 0;
+        // Om en fil saknas eller är trasig, flytta den till botten av listan
+        if (!levelA) return 1;
+        if (!levelB) return -1;
 
-        // Ändra till (gddlA - gddlB) om du vill ha lägsta tier först (#1 = Tier 1)
-        return gddlB - gddlA; 
+        // Hämta GDDL-värdet (eller sätt till 0 om det saknas)
+        const gddlA = typeof levelA.gddl === 'number' ? levelA.gddl : 0;
+        const gddlB = typeof levelB.gddl === 'number' ? levelB.gddl : 0;
+
+        // Sorterar från HÖGSTA till LÄGSTA GDDL-tier
+        return gddlB - gddlA;
     });
 
     return levels;
