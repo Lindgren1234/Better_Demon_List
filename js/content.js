@@ -5,8 +5,8 @@ import { round, score } from './score.js';
  */
 const dir = './data';
 
-// Hämtar den osorterade rådatan från dina JSON-filer
-export async function fetchListRaw() {
+// Hämtar listan i exakt den ordning du skrivit i _list.json (Kraschar aldrig!)
+export async function fetchList() {
     const list = await fetch("_list.json").then((res) => res.json());
     return await Promise.all(
         list.map(async (name) => {
@@ -20,30 +20,6 @@ export async function fetchListRaw() {
             }
         })
     );
-}
-
-// Sorterad lista för din vanliga huvudsida baserad på GDDL
-export async function fetchList() {
-    const levels = await fetchListRaw();
-
-    // KORREKT SORTERING: Packar upp nivån med [0] från paketet [levelData, error]
-    levels.sort((a, b) => {
-        const levelA = a ? a[0] : null;
-        const levelB = b ? b[0] : null;
-
-        // Om en fil saknas eller är trasig, flytta den till botten av listan
-        if (!levelA) return 1;
-        if (!levelB) return -1;
-
-        // Nu hittar den "gddl": 7 inuti acu.json utan problem!
-        const gddlA = typeof levelA.gddl === 'number' ? levelA.gddl : 0;
-        const gddlB = typeof levelB.gddl === 'number' ? levelB.gddl : 0;
-
-        // Sorterar från HÖGSTA till LÄGSTA GDDL-tier
-        return gddlB - gddlA;
-    });
-
-    return levels;
 }
 
 export async function fetchEditors() {
@@ -61,7 +37,7 @@ export async function fetchLeaderboard() {
         list = await fetchList() || [];
     } catch (e) {
         console.error("Fel vid hämtning av listan:", e);
-        return [[], ["Kunde inte ladda banlistan (fetchList misslyckades)."]];
+        return [[], ["Kunde inte ladda banlistan."]];
     }
 
     const scoreMap = {};
@@ -73,10 +49,7 @@ export async function fetchLeaderboard() {
             return;
         }
 
-        if (!level || !level.verifier) {
-            errs.push(`Bana på plats ${rank + 1} saknar giltig data.`);
-            return;
-        }
+        if (!level || !level.verifier) return;
 
         const verifier = Object.keys(scoreMap).find(
             (u) => u.toLowerCase() === level.verifier.toLowerCase(),
@@ -85,6 +58,7 @@ export async function fetchLeaderboard() {
         scoreMap[verifier] ??= { verified: [], completed: [], progressed: [] };
         const { verified } = scoreMap[verifier];
         
+        // Räknar ut poäng baserat på GDDL-värdet i JSON-filen
         const vScore = score(rank + 1, 100, level.percentToQualify || 100, level.gddl) || 0;
         
         verified.push({
@@ -100,7 +74,7 @@ export async function fetchLeaderboard() {
 
             const user = Object.keys(scoreMap).find(
                 (u) => u.toLowerCase() === record.user.toLowerCase(),
-                ) || record.user;
+            ) || record.user;
             
             scoreMap[user] ??= { verified: [], completed: [], progressed: [] };
             const { completed, progressed } = scoreMap[user];
