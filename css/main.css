@@ -138,15 +138,15 @@ input[type="checkbox"] {
     /* Minska/öka 'top' för att flytta rutan uppåt eller nedåt.       */
     /* Minska/öka 'right' för att flytta rutan till vänster/höger.   */
     /* ------------------------------------------------------------- */
-    top: -55px;                /* Negativt värde flyttar rutan UPPÅT över videon */
+    top: -80px;                /* Negativt värde flyttar rutan UPPÅT över videon */
     right: 0px;                /* 0px sätter den kant i kant med videons högersida */
     
     background-color: #ff0000; /* Röd bakgrund */
     color: #000000;            /* Svart text */
     font-weight: bold;
-    font-size: 2.2rem;         
-    width: 60px;               
-    height: 60px;              
+    font-size: 2rem;         
+    width: 50px;               
+    height: 50px;              
     border-radius: 8px;        
     box-shadow: 0 2px 5px rgba(0,0,0,0.3);
     z-index: 10;               /* Säkerställer att rutan ligger överst */
