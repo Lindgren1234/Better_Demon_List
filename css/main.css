@@ -138,7 +138,7 @@ input[type="checkbox"] {
     /* Minska/öka 'top' för att flytta rutan uppåt eller nedåt.       */
     /* Minska/öka 'right' för att flytta rutan till vänster/höger.   */
     /* ------------------------------------------------------------- */
-    top: -80px;                /* Negativt värde flyttar rutan UPPÅT över videon */
+    top: -75px;                /* Negativt värde flyttar rutan UPPÅT över videon */
     right: 0px;                /* 0px sätter den kant i kant med videons högersida */
     
     background-color: #ff0000; /* Röd bakgrund */
