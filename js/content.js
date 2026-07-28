@@ -5,8 +5,8 @@ import { round, score } from './score.js';
  */
 const dir = './data';
 
-// Rådata-hämtning utan sortering (Detta lagar rouletten!)
-async function fetchListRaw() {
+// Hämtar den osorterade rådatan från dina JSON-filer
+export async function fetchListRaw() {
     const list = await fetch("_list.json").then((res) => res.json());
     return await Promise.all(
         list.map(async (name) => {
@@ -22,15 +22,17 @@ async function fetchListRaw() {
     );
 }
 
-// Sorterad lista för din vanliga huvudsida
+// Sorterad lista för din vanliga huvudsida baserad på GDDL
 export async function fetchList() {
     const levels = await fetchListRaw();
 
     // Sortering efter GDDL TIER (Från högsta till lägsta)
     levels.sort((a, b) => {
+        // Packa upp nivån från [levelData, error] strukturen
         const levelA = a[0];
         const levelB = b[0];
 
+        // Om en fil saknas eller är trasig, flytta den till botten av listan
         if (!levelA) return 1;
         if (!levelB) return -1;
 
